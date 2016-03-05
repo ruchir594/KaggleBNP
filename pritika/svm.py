@@ -1,19 +1,17 @@
+from sklearn import datasets, svm
 import pandas as pd 
 import numpy as np 
 from sklearn.preprocessing import Imputer
-from sklearn.naive_bayes import GaussianNB
-import csv
 
-
-## Load the Data
 train = pd.DataFrame.from_csv("../data/data/train.csv")
 test = pd.DataFrame.from_csv("../data/data/test.csv")
 
-def naive_bayes(test, train):
+def bnp_svm(train, test):
 	## If a value is missing, set it to the average
 	imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
 
-
+	print("cleaning data")
+	train = train.sample(1000)
 	## set up training data
 	train1 = train.select_dtypes(include=['float64'])
 	imp.fit(train1)
@@ -29,20 +27,14 @@ def naive_bayes(test, train):
 	test1 = np.array(test1).astype(float)
 
 
-	## naive bayes
-	gnb = GaussianNB()
 
-	y_pred = gnb.fit(train1, target).predict_proba(test1)
-	return y_pred
-
-
-print(naive_bayes(test, train))
-
-
-## match along column values
+	print("training...")
+	clf = svm.SVC(gamma=0.001, C=100, probability=True)
+	print("testing")
+	clf.fit(train1, target)
+	print("predicting")
+	yhat = clf.predict_proba(test1)
+	return yhat
 
 
-# with open('out.csv', 'w') as fh:
-#     writer = csv.writer(fh, delimiter=',')
-#     writer.writerow(['ID','PredictedProb'])
-#     writer.writerows(enumerate(y_hat))
+print(bnp_svm(train, test))
