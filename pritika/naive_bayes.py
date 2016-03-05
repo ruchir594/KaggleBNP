@@ -6,10 +6,10 @@ import csv
 
 
 ## Load the Data
-train = pd.DataFrame.from_csv("../data/data/train.csv")
-test = pd.DataFrame.from_csv("../data/data/test.csv")
+#train = pd.DataFrame.from_csv("../data/data/train.csv")
+#test = pd.DataFrame.from_csv("../data/data/test.csv")
 
-def naive_bayes(test, train):
+def naive_bayes(train, test):
 	## If a value is missing, set it to the average
 	imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
 
@@ -36,7 +36,7 @@ def naive_bayes(test, train):
 	return y_pred
 
 
-print(naive_bayes(test, train))
+#print(naive_bayes(train, test))
 
 
 ## match along column values

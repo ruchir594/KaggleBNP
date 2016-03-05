@@ -3,14 +3,15 @@ import pandas as pd
 import numpy as np 
 from sklearn.preprocessing import Imputer
 
-train = pd.DataFrame.from_csv("../data/data/train.csv")
-test = pd.DataFrame.from_csv("../data/data/test.csv")
+#train = pd.DataFrame.from_csv("../data/data/train.csv")
+#test = pd.DataFrame.from_csv("../data/data/test.csv")
 
 def bnp_svm(train, test):
+	print('bnpsvm')
 	## If a value is missing, set it to the average
 	imp = Imputer(missing_values='NaN', strategy='mean', axis=0)
 
-	print("cleaning data")
+	#print("cleaning data")
 	train = train.sample(1000)
 	## set up training data
 	train1 = train.select_dtypes(include=['float64'])
@@ -28,13 +29,13 @@ def bnp_svm(train, test):
 
 
 
-	print("training...")
+	#print("training...")
 	clf = svm.SVC(gamma=0.001, C=100, probability=True)
-	print("testing")
+	#print("testing")
 	clf.fit(train1, target)
-	print("predicting")
+	#print("predicting")
 	yhat = clf.predict_proba(test1)
 	return yhat
 
 
-print(bnp_svm(train, test))
+#print(bnp_svm(train, test))
